@@ -256,6 +256,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--:--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZdW-qY-mXh">
+                                <rect key="frame" x="19" y="426" width="36" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--:--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lbg-lE-4i8">
+                                <rect key="frame" x="320" y="426" width="36" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -267,14 +279,20 @@
                             <constraint firstItem="EbA-Os-H2i" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="52" id="SEt-o2-rgb"/>
                             <constraint firstItem="9aE-8H-eVt" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" constant="210" id="TPh-FN-2NF"/>
                             <constraint firstItem="5gB-jV-sCj" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="Xfa-Nt-WjH"/>
+                            <constraint firstItem="ZdW-qY-mXh" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" constant="103" id="a8J-Sq-7YJ"/>
                             <constraint firstItem="EbA-Os-H2i" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" constant="-132" id="gfG-Qv-ZcK"/>
+                            <constraint firstItem="ZdW-qY-mXh" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" constant="-150.5" id="iVr-bO-aJv"/>
+                            <constraint firstItem="Lbg-lE-4i8" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" constant="150.5" id="kcs-DQ-bpE"/>
                             <constraint firstItem="5gB-jV-sCj" firstAttribute="leading" secondItem="EbA-Os-H2i" secondAttribute="leading" id="pgd-9X-e3p"/>
                             <constraint firstItem="EbA-Os-H2i" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="u4v-cB-aqa"/>
+                            <constraint firstItem="Lbg-lE-4i8" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" constant="103" id="uRb-n6-w5J"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="more" id="cPa-gy-q4n"/>
                     <connections>
+                        <outlet property="beginTimeLabel" destination="ZdW-qY-mXh" id="MWy-QJ-3Nu"/>
                         <outlet property="emptyLabel" destination="9aE-8H-eVt" id="Sqj-jr-8mF"/>
+                        <outlet property="endTimeLabel" destination="Lbg-lE-4i8" id="NBz-Q2-7Fa"/>
                         <outlet property="playBtn" destination="TVq-qK-VYw" id="ovo-QY-sMi"/>
                         <outlet property="playerImg" destination="EbA-Os-H2i" id="W3s-0s-1Js"/>
                         <outlet property="playerSlider" destination="5gB-jV-sCj" id="bfl-SP-ken"/>

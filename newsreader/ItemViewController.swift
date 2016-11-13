@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import AVKit
+import MediaPlayer
 
 class ItemViewController: UIViewController {
 
@@ -151,16 +152,22 @@ class ItemViewController: UIViewController {
         self.view.subviews[0].addSubview(playerController.view)
         playerController.player!.allowsExternalPlayback = true
         playerController.player!.usesExternalPlaybackWhileExternalScreenIsActive = true
-
         
         //let y = (self.tabBarController?.tabBar.frame.height)! + UIApplication.shared.statusBarFrame.height
         
         playerController.view.frame = CGRect(x: 0, y: -65, width: self.itemImg.frame.size.width, height: self.itemImg.frame.size.height)
         player.play()
         
+        let volumeView = MPVolumeView(frame: CGRect(x: 50, y: 300, width: 100, height: self.itemImg.frame.size.height))
+        
+        volumeView.showsVolumeSlider = false
+        volumeView.sizeToFit()
+        volumeView.backgroundColor = UIColor.black
+        volumeView.showsRouteButton = true
+        //self.view.addSubview(volumeView)
+        
         self.itemImg.isHidden = true
         self.playVideoBtn.isHidden = true
-
         
     }
     

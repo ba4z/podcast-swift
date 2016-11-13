@@ -14,6 +14,8 @@ class AudioPlayerController: UIViewController {
     @IBOutlet weak var playerSlider: UISlider!
     @IBOutlet weak var playBtn: UIButton!
     @IBOutlet weak var emptyLabel: UILabel!
+    @IBOutlet weak var beginTimeLabel: UILabel!
+    @IBOutlet weak var endTimeLabel: UILabel!
     
 
     override func viewDidLoad() {
@@ -61,6 +63,10 @@ class AudioPlayerController: UIViewController {
             self.playerSlider.maximumValue = Float((MediaService.sharedInstance.getDuration()?.seconds)!)
         }
         self.playerSlider.value = 0
+        
+        
+        //self.endTimeLabel.text =
+            //MediaService.sharedInstance.getDuration()
     }
     
     func playingTimeUpdated() {
@@ -73,7 +79,6 @@ class AudioPlayerController: UIViewController {
         } else {
             MediaService.sharedInstance.play()
         }
-        
     }
     
     @IBAction func sliderDragged(_ sender: Any) {

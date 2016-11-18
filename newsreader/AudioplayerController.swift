@@ -72,11 +72,7 @@ class AudioPlayerController: UIViewController {
         
         self.endTimeLabel.text = String(format: "%.0f:%.0f", minutes, seconds)
         
-        
         MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : "Artist!",  MPMediaItemPropertyTitle : "Title!"]
-        
-
-
     }
     
     func playingTimeUpdated() {
@@ -105,7 +101,6 @@ class AudioPlayerController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
 }
 

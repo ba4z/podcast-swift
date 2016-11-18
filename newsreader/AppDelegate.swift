@@ -42,19 +42,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     override func remoteControlReceived(with event: UIEvent?) {
-        print(event!.type)
         if event!.type == UIEventType.remoteControl {
             if event?.subtype == UIEventSubtype.remoteControlPlay || event?.subtype == UIEventSubtype.remoteControlPause {
-                //play(self)
-                print("play")
+                if(MediaService.sharedInstance.isCurrentlyPlaying()){
+                    MediaService.sharedInstance.pause()
+                } else {
+                    MediaService.sharedInstance.play()
+                }
+                
             }
             if event?.subtype == UIEventSubtype.remoteControlNextTrack {
                 //next(self)
-                print("next")
+                //print("next")
             }
             if event?.subtype == UIEventSubtype.remoteControlPreviousTrack {
                 //previous(self)
-                print("previous")
+                //print("previous")
             }
         }
     }

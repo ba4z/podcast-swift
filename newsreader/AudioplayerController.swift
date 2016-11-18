@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AVFoundation
+import MediaPlayer
 
 class AudioPlayerController: UIViewController {
     
@@ -64,13 +66,27 @@ class AudioPlayerController: UIViewController {
         }
         self.playerSlider.value = 0
         
+        let totalDuration = MediaService.sharedInstance.getDuration()!.seconds
+        let seconds = floor(totalDuration.truncatingRemainder(dividingBy: 60))
+        let minutes = floor(totalDuration/60)
         
-        //self.endTimeLabel.text =
-            //MediaService.sharedInstance.getDuration()
+        self.endTimeLabel.text = String(format: "%.0f:%.0f", minutes, seconds)
+        
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : "Artist!",  MPMediaItemPropertyTitle : "Title!"]
+        
+
+
     }
     
     func playingTimeUpdated() {
         self.playerSlider.value = Float((MediaService.sharedInstance.getTime()?.seconds)!)
+        
+        let secondsPassed = MediaService.sharedInstance.getTime()!.seconds
+        let seconds = floor(secondsPassed.truncatingRemainder(dividingBy: 60))
+        let minutes = floor(secondsPassed/60)
+        
+        self.beginTimeLabel.text = String(format: "%.0f:%.0f", minutes, seconds)
     }
 
     @IBAction func playBtnDown(_ sender: Any) {

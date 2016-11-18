@@ -38,6 +38,7 @@ class MediaService: NSObject {
     
     private var timer: Timer?
     
+    
     private override init() {}
     
     func playUrl(url:URL) {
@@ -57,6 +58,8 @@ class MediaService: NSObject {
                 self.url = url;
                 
                 self.player!.play()
+                updateNowPlayingInfo()
+                
                 
             } catch let error {
                 print(error.localizedDescription)
@@ -84,6 +87,9 @@ class MediaService: NSObject {
         self.isPlaying = true
         
         self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: notifyTimeChange)
+        
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        updateNowPlayingInfo()
     }
     
     func pause() {
@@ -138,7 +144,7 @@ class MediaService: NSObject {
     }
     
     private func updateNowPlayingInfo() {
-        if(self.mediaItem != nil){
+        if(self.mediaItem != nil) {
             let artworkProperty = MPMediaItemArtwork(image: self.mediaItem!.imageView!)
             MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle : self.mediaItem!.title, MPMediaItemPropertyArtist : self.mediaItem!.author, MPMediaItemPropertyArtwork : artworkProperty, MPNowPlayingInfoPropertyDefaultPlaybackRate : NSNumber(value: 1), MPMediaItemPropertyPlaybackDuration : CMTimeGetSeconds((player!.currentItem?.asset.duration)!)]
 
@@ -146,11 +152,8 @@ class MediaService: NSObject {
     }
     
     private func notifyTimeChange(timer:Timer) -> Void {
-        print("tick... tock")
         let notificationName = Notification.Name(self.TIME_CHANGE_NOTIFICATION)
         NotificationCenter.default.post(name: notificationName, object: nil)
     }
-    
-    
     
 }

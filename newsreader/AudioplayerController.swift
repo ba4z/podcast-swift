@@ -33,6 +33,11 @@ class AudioPlayerController: UIViewController {
         
         mediaItemUpdated()
         onPlayingChange(notification: nil)
+        
+        MPRemoteCommandCenter.shared().skipForwardCommand.isEnabled = false;
+        MPRemoteCommandCenter.shared().skipBackwardCommand.isEnabled = false;
+        MPRemoteCommandCenter.shared().nextTrackCommand.isEnabled = false;
+        MPRemoteCommandCenter.shared().previousTrackCommand.isEnabled = false;
     }
     
     func onPlayingChange(notification:Notification?) {
@@ -48,17 +53,15 @@ class AudioPlayerController: UIViewController {
         let mediaItem = MediaService.sharedInstance.getMediaItem()
         
         if(mediaItem == nil) {
-            self.playerImg.isHidden = true
-            self.playerSlider.isHidden = true
+            self.playerSlider.isEnabled = false
             self.playBtn.isHidden = true
             self.emptyLabel.isHidden = false
+            self.playerImg.image = #imageLiteral(resourceName: "placeholder.png")
             
         } else {
             self.playerImg.image = mediaItem?.imageView
             UIView.animate(withDuration: 1, animations: {
-                self.playerImg.alpha = 1.0
-                self.playerImg.isHidden = false
-                self.playerSlider.isHidden = false
+                self.playerSlider.isEnabled = true
                 self.playBtn.isHidden = false
                 self.emptyLabel.isHidden = true
             })
@@ -66,13 +69,16 @@ class AudioPlayerController: UIViewController {
         }
         self.playerSlider.value = 0
         
-        let totalDuration = MediaService.sharedInstance.getDuration()!.seconds
-        let seconds = floor(totalDuration.truncatingRemainder(dividingBy: 60))
-        let minutes = floor(totalDuration/60)
+        if(MediaService.sharedInstance.getMediaItem() != nil) {
         
-        self.endTimeLabel.text = String(format: "%.0f:%.0f", minutes, seconds)
+            let totalDuration = MediaService.sharedInstance.getDuration()!.seconds
+            let seconds = floor(totalDuration.truncatingRemainder(dividingBy: 60))
+            let minutes = floor(totalDuration/60)
         
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : "Artist!",  MPMediaItemPropertyTitle : "Title!"]
+            self.endTimeLabel.text = String(format: "%.0f:%.0f", minutes, seconds)
+        
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : "Artist!",  MPMediaItemPropertyTitle : "Title!"]
+        }
     }
     
     func playingTimeUpdated() {

@@ -10,12 +10,24 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
-    //var items = [MediaItem]()
-    var selectedItem:MediaItem? = nil
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl!.addTarget(self, action: #selector(TableViewController.handleRefresh(refreshControl:)), for: UIControlEvents.valueChanged)
+        
+        loadData()
+
+    }
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        loadData()
+    }
+    
+    func loadData() {
+        DataService.sharedInstance.mediaItems = []
         RestApiManager.sharedInstance.makeHTTPGetRequest(path: "https://apps.customchurchapps.net/dashboard/parseFeed?url=http://genpod.libsyn.com/rss", onCompletion: { json, err in
             
             for item in json["items"] as! [Dictionary<String, AnyObject>] {
@@ -30,14 +42,14 @@ class TableViewController: UITableViewController {
                 if(item["enclosures"] != nil){
                     mediaItem.setEnclosures(enclosureList: item["enclosures"] as! [AnyObject])
                 }
-
+                
                 DataService.sharedInstance.mediaItems.append(mediaItem)
             }
             DispatchQueue.main.async{
+                self.refreshControl!.endRefreshing()
                 self.tableView.reloadData()
             }
         })
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,21 +74,22 @@ class TableViewController: UITableViewController {
         let cellIdentifier = "MediaItemViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MediaItemTableViewCell
         
+        if(DataService.sharedInstance.mediaItems.indices.contains(indexPath.row)) {
+            let item = DataService.sharedInstance.mediaItems[indexPath.row]
+            cell.title.text = item.title
+            cell.subtitle.text = item.subtitle
         
-        let item = DataService.sharedInstance.mediaItems[indexPath.row]
-        cell.title.text = item.title
-        cell.subtitle.text = item.subtitle
         
-        
-        if(item.imageUrl != nil) {
-            DispatchQueue.global().async {
-                let data = try? Data(contentsOf: URL(string: item.imageUrl!)!) //make sure your image in this url does exist
-                DispatchQueue.main.async {
-                    item.setImageView(img: UIImage(data: data!)!)
-                    cell.cellImage.image = item.imageView
-                    UIView.animate(withDuration: 1, animations: {
-                        cell.cellImage.alpha = 1.0
-                    })
+            if(item.imageUrl != nil) {
+                DispatchQueue.global().async {
+                    let data = try? Data(contentsOf: URL(string: item.imageUrl!)!) //make sure your image in this url does exist
+                    DispatchQueue.main.async {
+                        item.setImageView(img: UIImage(data: data!)!)
+                        cell.cellImage.image = item.imageView
+                        UIView.animate(withDuration: 1, animations: {
+                            cell.cellImage.alpha = 1.0
+                        })
+                    }
                 }
             }
         }

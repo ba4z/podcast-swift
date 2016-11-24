@@ -78,17 +78,22 @@ class TableViewController: UITableViewController {
             let item = DataService.sharedInstance.mediaItems[indexPath.row]
             cell.title.text = item.title
             cell.subtitle.text = item.subtitle
+            cell.cellImage.image = nil
         
         
             if(item.imageUrl != nil) {
-                DispatchQueue.global().async {
-                    let data = try? Data(contentsOf: URL(string: item.imageUrl!)!) //make sure your image in this url does exist
-                    DispatchQueue.main.async {
-                        item.setImageView(img: UIImage(data: data!)!)
-                        cell.cellImage.image = item.imageView
-                        UIView.animate(withDuration: 1, animations: {
-                            cell.cellImage.alpha = 1.0
-                        })
+                if(item.imageView != nil) {
+                    cell.cellImage.image = item.imageView
+                } else {
+                    DispatchQueue.global().async {
+                        let data = try? Data(contentsOf: URL(string: item.imageUrl!)!) //make sure your image in this url does exist
+                        DispatchQueue.main.async {
+                            item.setImageView(img: UIImage(data: data!)!)
+                            cell.cellImage.image = item.imageView
+                            UIView.animate(withDuration: 1, animations: {
+                                cell.cellImage.alpha = 1.0
+                            })
+                        }
                     }
                 }
             }

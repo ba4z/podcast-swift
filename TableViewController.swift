@@ -80,7 +80,6 @@ class TableViewController: UITableViewController {
             cell.subtitle.text = item.subtitle
             cell.cellImage.image = nil
         
-        
             if(item.imageUrl != nil) {
                 if(item.imageView != nil) {
                     cell.cellImage.image = item.imageView
@@ -97,7 +96,9 @@ class TableViewController: UITableViewController {
                     }
                 }
             }
+            
         }
+        
         
         return cell
     }
@@ -105,7 +106,8 @@ class TableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "itemSeque") {
             let viewController = segue.destination as! ItemViewController
-            viewController.mediaItemIndex = (tableView.indexPathForSelectedRow?.row)!
+            viewController.mediaItemIndex = self.tableView.indexPathForSelectedRow!.row
+            self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: true)
         }
         
     }

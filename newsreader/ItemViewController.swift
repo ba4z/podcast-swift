@@ -31,9 +31,6 @@ class ItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-
-        
         self.mediaItem = DataService.sharedInstance.mediaItems[self.mediaItemIndex]
         self.playBtn.alpha = 0
 
@@ -49,16 +46,18 @@ class ItemViewController: UIViewController {
             
             self.itemDescription.attributedText = attrStr
             
-            if(self.mediaItem?.imageView != nil){
-                self.itemImg.image = self.mediaItem?.imageView
-            } else if(self.mediaItem?.imageUrl != nil) {
-                self.itemImg.alpha = 0
-                let data = try? Data(contentsOf: URL(string: (self.mediaItem?.imageUrl!)!)!) //make sure your image in this url does exist
-                DispatchQueue.main.async {
-                    self.itemImg.image = UIImage(data: data!)
-                    UIView.animate(withDuration: 1, animations: {
-                        self.itemImg.alpha = 1.0
-                    })
+            DispatchQueue.global().async {
+                if(self.mediaItem?.imageView != nil){
+                    self.itemImg.image = self.mediaItem?.imageView
+                } else if(self.mediaItem?.imageUrl != nil) {
+                    self.itemImg.alpha = 0
+                    let data = try? Data(contentsOf: URL(string: (self.mediaItem?.imageUrl!)!)!) //make sure your image in this url does exist
+                    DispatchQueue.main.async {
+                        self.itemImg.image = UIImage(data: data!)
+                        UIView.animate(withDuration: 1, animations: {
+                            self.itemImg.alpha = 1.0
+                        })
+                    }
                 }
             }
             
